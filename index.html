@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Registro de Asistencia</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    .container {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+    }
+    h1 {
+      text-align: center;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #334155;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      font-size: 1.2rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 1rem;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+    .btn {
+      padding: 1rem 0.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .btn:active { transform: scale(0.96); }
+    .btn-entrada { background: #10b981; }
+    .btn-inicio-alm { background: #f59e0b; }
+    .btn-fin-alm { background: #f97316; }
+    .btn-salida { background: #ef4444; }
+    .btn-consulta {
+      background: #3b82f6;
+      width: 100%;
+      margin-top: 0.5rem;
+      grid-column: span 2;
+    }
+    .mensaje {
+      text-align: center;
+      margin: 1rem 0;
+      font-weight: 600;
+      min-height: 1.5rem;
+    }
+    .mensaje.error { color: #dc2626; }
+    .mensaje.exito { color: #16a34a; }
+    .tabla-container {
+      margin-top: 2rem;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th {
+      background: #f1f5f9;
+      padding: 0.7rem;
+      text-align: left;
+    }
+    td { padding: 0.6rem; border-bottom: 1px solid #e2e8f0; }
+    hr { margin: 1.5rem 0; border: 0.5px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⏱️ Registro de Asistencia</h1>
+
+    <div class="input-group">
+      <label for="idEmpleado">ID de Empleado</label>
+      <input type="text" id="idEmpleado" placeholder="Ej: EMP001" autocomplete="off" inputmode="text">
+    </div>
+
+    <div class="buttons-grid">
+      <button class="btn btn-entrada" data-accion="Entrada">🟢 Entrada</button>
+      <button class="btn btn-inicio-alm" data-accion="Inicio Refrigerio">🟡 Iniciar Almuerzo</button>
+      <button class="btn btn-fin-alm" data-accion="Fin Refrigerio">🟠 Terminar Almuerzo</button>
+      <button class="btn btn-salida" data-accion="Salida">🔴 Salida</button>
+    </div>
+    <div id="mensajeMarcaje" class="mensaje"></div>
+
+    <hr>
+    <h2 style="font-size: 1.3rem; text-align: center;">📋 Mis Registros del Mes</h2>
+    <div class="input-group">
+      <input type="text" id="idConsulta" placeholder="Tu ID de empleado">
+    </div>
+    <button id="btnConsultar" class="btn btn-consulta">🔍 Consultar</button>
+    <div class="tabla-container" id="tablaRegistros"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="empleado.js"></script>
+</body>
+</html>

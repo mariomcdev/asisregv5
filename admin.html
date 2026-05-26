@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f0f2f5;
+      padding: 1rem;
+    }
+    /* Modal de PIN */
+    #modalPin {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .pin-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .pin-box input {
+      padding: 0.8rem;
+      font-size: 1.5rem;
+      text-align: center;
+      width: 150px;
+      margin: 1rem 0;
+      border: 2px solid #cbd5e1;
+      border-radius: 0.8rem;
+    }
+    .pin-box button {
+      padding: 0.8rem 2rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .oculto { display: none !important; }
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+    h1, h2 { color: #1e293b; margin-bottom: 1rem; }
+    .seccion {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    input, select, button {
+      padding: 0.7rem;
+      border-radius: 0.6rem;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:hover { opacity: 0.9; }
+    button.danger { background: #dc2626; }
+    button.success { background: #16a34a; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    th { background: #f8fafc; padding: 0.7rem; text-align: left; }
+    td { padding: 0.6rem; border-bottom: 1px solid #e2e8f0; }
+    .alerta { background: #fee2e2; font-weight: bold; }
+    .mensaje { margin: 0.8rem 0; font-weight: 600; }
+    .filtros { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: end; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <!-- Modal de PIN -->
+  <div id="modalPin">
+    <div class="pin-box">
+      <h2>🔐 Acceso Restringido</h2>
+      <input type="password" id="pinInput" placeholder="PIN" maxlength="10">
+      <br>
+      <button id="btnValidarPin">Ingresar</button>
+      <p id="pinError" style="color:red; margin-top:0.5rem;"></p>
+    </div>
+  </div>
+
+  <!-- Contenido Principal (oculto hasta validar PIN) -->
+  <div id="contenidoAdmin" class="container oculto">
+    <h1>🛡️ Panel de Administración</h1>
+
+    <!-- Gestión de Personal -->
+    <div class="seccion">
+      <h2>➕ Registrar Nuevo Empleado</h2>
+      <div class="form-grid">
+        <input type="text" id="nuevoId" placeholder="ID Empleado" required>
+        <input type="text" id="nuevoNombre" placeholder="Nombre Completo" required>
+        <input type="text" id="nuevaArea" placeholder="Área (ej: Ventas)">
+      </div>
+      <button id="btnRegistrar" class="success">Registrar Empleado</button>
+      <p id="mensajeRegistro" class="mensaje"></p>
+
+      <h2 style="margin-top:2rem;">📋 Lista de Empleados</h2>
+      <div id="tablaEmpleados"></div>
+    </div>
+
+    <!-- Reportes Avanzados -->
+    <div class="seccion">
+      <h2>📊 Consola de Reportes</h2>
+      <div class="filtros">
+        <label>Desde: <input type="date" id="fechaDesde"></label>
+        <label>Hasta: <input type="date" id="fechaHasta"></label>
+        <label>Área:
+          <select id="filtroArea">
+            <option value="">Todas</option>
+          </select>
+        </label>
+        <button id="btnGenerarReporte">🔎 Generar Reporte</button>
+        <button id="btnExportarCSV" class="success">📥 Exportar CSV</button>
+      </div>
+      <div id="tablaReporte"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
